@@ -5,25 +5,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
 
 class ApartmentAmenitiesFilter extends React.Component {
-  state = {
-    television: false,
-    elevator: false,
-    fridge: false,
-    heating: false,
-    cooker: false,
-    microwave: false
-  }
 
-  handleChange = (name, currentState) => event => {
-    var stateName = name.toLowerCase();
-    this.setState({ [stateName]: !currentState  });
-
-    for(let i = 0; i < this.props.amenities.length; i++) {
-      if(this.props.amenities[i] === stateName) {
-        this.props.dispatch({ type: 'DELETE_' + name });
-        return
-      }
-    }
+  handleChange = name => event => {
     this.props.dispatch({ type: name });
   };
 
@@ -34,8 +17,8 @@ class ApartmentAmenitiesFilter extends React.Component {
           label="Television"
           control={
             <Checkbox
-              checked={this.state.television}
-              onChange={this.handleChange('TELEVISION', this.state.television)}
+              checked={this.props.television}
+              onChange={this.handleChange('TELEVISION')}
               value="television"
               color="primary"
             />
@@ -45,8 +28,8 @@ class ApartmentAmenitiesFilter extends React.Component {
           label="Elevator"
           control={
             <Checkbox
-              checked={this.state.elevator}
-              onChange={this.handleChange('ELEVATOR', this.state.elevator)}
+              checked={this.props.elevator}
+              onChange={this.handleChange('ELEVATOR')}
               value="elevator"
               color="primary"
             />
@@ -56,8 +39,8 @@ class ApartmentAmenitiesFilter extends React.Component {
           label="Fridge"
           control={
             <Checkbox
-              checked={this.state.fridge}
-              onChange={this.handleChange('FRIDGE', this.state.fridge)}
+              checked={this.props.fridge}
+              onChange={this.handleChange('FRIDGE')}
               value="fridge"
               color="primary"
             />
@@ -67,8 +50,8 @@ class ApartmentAmenitiesFilter extends React.Component {
           label="Heating"
           control={
             <Checkbox
-              checked={this.state.heating}
-              onChange={this.handleChange('HEATING', this.state.heating)}
+              checked={this.props.heating}
+              onChange={this.handleChange('HEATING')}
               value="heating"
               color="primary"
             />
@@ -78,8 +61,8 @@ class ApartmentAmenitiesFilter extends React.Component {
           label="Cooker"
           control={
             <Checkbox
-              checked={this.state.cooker}
-              onChange={this.handleChange('COOKER', this.state.cooker)}
+              checked={this.props.cooker}
+              onChange={this.handleChange('COOKER')}
               value="cooker"
               color="primary"
             />
@@ -89,8 +72,8 @@ class ApartmentAmenitiesFilter extends React.Component {
           label="Microwave"
           control={
             <Checkbox
-              checked={this.state.microwave}
-              onChange={this.handleChange('MICROWAVE', this.state.microwave)}
+              checked={this.props.microwave}
+              onChange={this.handleChange('MICROWAVE')}
               value="microwave"
               color="primary"
             />
@@ -103,7 +86,12 @@ class ApartmentAmenitiesFilter extends React.Component {
 
 const mapStateToProps = (state) => {
   return { 
-    amenities: state.apartmentAmenitiesReducer
+    television: state.apartmentAmenitiesReducer.television,
+    elevator: state.apartmentAmenitiesReducer.elevator,
+    fridge: state.apartmentAmenitiesReducer.fridge,
+    heating: state.apartmentAmenitiesReducer.heating,
+    cooker: state.apartmentAmenitiesReducer.cooker,
+    microwave: state.apartmentAmenitiesReducer.microwave
    }
 }
 

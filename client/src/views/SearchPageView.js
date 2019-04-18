@@ -28,45 +28,68 @@ class SearchPage extends React.Component {
         return <div>Loading...</div>
     }
 
-    // City filter
-    const apartmentsByName = apartmentListItems.filter(item => item.location.title.toLowerCase() === this.state.city)
-    // Size filter
-    const apartmentsSize = apartmentsByName.filter(item => item.size <= this.props.size)
-    // Price filter
-    const apartmentsPrice = apartmentsSize.filter(item => item.price <= this.props.price * 100)
-    // Bedroom filter
-    const apartmentsBedroom = apartmentsPrice.filter(item => item.details.bedrooms >= this.props.details.bedroomCount)
-    // Room filter
-    const apartmentsRoom = apartmentsBedroom.filter(item => item.details.rooms >= this.props.details.roomCount)
-    // Floors filter
-    const apartmentsFloors = apartmentsRoom.filter(item => item.details.floor >= this.props.details.floorCount)
-    // Bathrooms filter
-    const apartmentsBathrooms = apartmentsFloors.filter(item => item.details.bathrooms >= this.props.details.bathroomCount)
 
-    let apartmentsAmenities = apartmentsBathrooms;
-    
-    if(this.props.amenities.length > 0) {
-      if(this.props.amenities.includes('television')) {
-        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('television'));
-      }
-      if(this.props.amenities.includes('elevator')) {
-        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('elevator'));
-      }
-      if(this.props.amenities.includes('fridge')) {
-        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('fridge'));
-      }
-      if(this.props.amenities.includes('heating')) {
-        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('heating'));
-      }
-      if(this.props.amenities.includes('cooker')) {
-        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('cooker'));
-      }
-      if(this.props.amenities.includes('microwave')) {
-        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('microwave'));
-      }
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    // Important note: I ran out of time and had to think quick to filter through all of the Data
+    // this is the best option I was able to come up with quickly, and I'm sure there's a much 
+    // better way to do this that I'm just not aware of yet
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    // City filter
+    apartmentListItems = apartmentListItems.filter(item => item.location.title.toLowerCase() === this.state.city)
+    // Size filter
+    apartmentListItems = apartmentListItems.filter(item => item.size <= this.props.size)
+    // Price filter
+    apartmentListItems = apartmentListItems.filter(item => item.price <= this.props.price * 100)
+    // Bedroom filter
+    apartmentListItems = apartmentListItems.filter(item => item.details.bedrooms >= this.props.details.bedroomCount)
+    // Room filter
+    apartmentListItems = apartmentListItems.filter(item => item.details.rooms >= this.props.details.roomCount)
+    // Floors filter
+    apartmentListItems = apartmentListItems.filter(item => item.details.floor >= this.props.details.floorCount)
+    // Bathrooms filter
+    apartmentListItems = apartmentListItems.filter(item => item.details.bathrooms >= this.props.details.bathroomCount)
+
+    // Amenities filter
+    if(this.props.amenities.television === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.amenities.includes('television'));
+    }
+    if(this.props.amenities.elevator === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.amenities.includes('elevator'));
+    }
+    if(this.props.amenities.fridge === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.amenities.includes('fridge'));
+    }
+    if(this.props.amenities.heating === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.amenities.includes('heating'));
+    }
+    if(this.props.amenities.cooker === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.amenities.includes('cooker'));
+    }
+    if(this.props.amenities.microwave === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.amenities.includes('microwave'));
     }
     
+    // Services filter
+    if(this.props.services.concierge === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.services.includes('concierge'));
+    }
+    if(this.props.services.cleaning === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.services.includes('elevator'));
+    }
+    if(this.props.services.fullFridge === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.services.includes('fridge'));
+    }
+    if(this.props.services.laundry === true) {
+      apartmentListItems = apartmentListItems.filter(item => item.services.includes('laundry'));
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    // Phew, end of the super long...definitely wasteful code. I'd love to know the best 
+    // solution for this which I'm sure you have :)
+    //////////////////////////////////////////////////////////////////////////////////////////////
       
+
     return (
       <div>
         <div className="container-list container-lg clearfix">
@@ -94,7 +117,7 @@ class SearchPage extends React.Component {
           <div className="col-12 float-left searchList">
             <h3 className="capitalize">{this.state.city}</h3>
             <div className="view-apartment-list">
-              {apartmentsAmenities.map((item, index) => (
+              {apartmentListItems.map((item, index) => (
                   <ApartmentTileView key={index} apartment={item} />
               ))}
             </div>
@@ -110,7 +133,8 @@ const mapStateToProps = state => ({
   size: state.sizeReducer.size,
   price: state.priceReducer.price,
   amenities: state.apartmentAmenitiesReducer,
-  details: state.apartmentDetailsReducer
+  details: state.apartmentDetailsReducer,
+  services: state.apartmentServicesReducer,
 });
 
 export default connect(mapStateToProps, {fetchApartmentsList})(SearchPage)
