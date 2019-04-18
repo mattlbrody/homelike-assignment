@@ -27,12 +27,11 @@
   },
   "dependencies": {
     "apollo-server-express": "^1.2.0",
+    "async": "^2.6.1",
     "body-parser": "^1.18.2",
-    "helmet": "^3.13.0",
     "compression": "^1.7.3",
     "cors": "^2.8.4",
     "debug": "^2.6.9",
-    "async": "^2.6.1",
     "express-session": "^1.15.5",
     "feathers": "^2.2.0",
     "feathers-configuration": "^0.4.1",
@@ -45,11 +44,12 @@
     "graphql": "^0.11.7",
     "graphql-server-express": "^1.2.0",
     "graphql-tools": "^1.2.3",
-    "lodash": "^4.17.4",
+    "helmet": "^3.13.0",
+    "lodash": "^4.17.11",
     "mongodb": "^2.2.35",
     "serve-favicon": "^2.4.3",
-    "url-join": "^2.0.2",
     "sha256": "^0.2.0",
+    "url-join": "^2.0.2",
     "winston": "2.4.0"
   },
   "devDependencies": {
