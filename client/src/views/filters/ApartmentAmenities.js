@@ -62,13 +62,6 @@ class ApartmentAmenities extends React.Component {
                       <div>
                         <ApartmentAmenitiesFilter />
                         <div className="bottommodal">
-                          <Button 
-                            disableTouchRipple
-                            className="resetbtn"
-                            onClick={this.filterReset}
-                          >
-                            Reset Filter
-                          </Button>
                           <div className="right">
                           <Button 
                             disableTouchRipple

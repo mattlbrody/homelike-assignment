@@ -30,21 +30,42 @@ class SearchPage extends React.Component {
 
     // City filter
     const apartmentsByName = apartmentListItems.filter(item => item.location.title.toLowerCase() === this.state.city)
-
     // Size filter
-    const apartmentsSize = apartmentsByName.filter(item => item.size <= this.props.size )
-
+    const apartmentsSize = apartmentsByName.filter(item => item.size <= this.props.size)
     // Price filter
-    const apartmentsPrice = apartmentsSize.filter(item => item.price <= this.props.price * 100 )
+    const apartmentsPrice = apartmentsSize.filter(item => item.price <= this.props.price * 100)
+    // Bedroom filter
+    const apartmentsBedroom = apartmentsPrice.filter(item => item.details.bedrooms >= this.props.details.bedroomCount)
+    // Room filter
+    const apartmentsRoom = apartmentsBedroom.filter(item => item.details.rooms >= this.props.details.roomCount)
+    // Floors filter
+    const apartmentsFloors = apartmentsRoom.filter(item => item.details.floor >= this.props.details.floorCount)
+    // Bathrooms filter
+    const apartmentsBathrooms = apartmentsFloors.filter(item => item.details.bathrooms >= this.props.details.bathroomCount)
+
+    let apartmentsAmenities = apartmentsBathrooms;
     
-    const apartmentsAmenities = apartmentsPrice.amenities
-    //const apartmentsAmenities = apartmentsPrice.filter(item => item.amenities.filter( amenity => 
-    //     console.log(amenity)
-    //   )
-    // )
-    console.log(this.props.amenities)
-    console.log(apartmentsAmenities)
-    console.log(apartmentsPrice)
+    if(this.props.amenities.length > 0) {
+      if(this.props.amenities.includes('television')) {
+        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('television'));
+      }
+      if(this.props.amenities.includes('elevator')) {
+        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('elevator'));
+      }
+      if(this.props.amenities.includes('fridge')) {
+        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('fridge'));
+      }
+      if(this.props.amenities.includes('heating')) {
+        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('heating'));
+      }
+      if(this.props.amenities.includes('cooker')) {
+        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('cooker'));
+      }
+      if(this.props.amenities.includes('microwave')) {
+        apartmentsAmenities = apartmentsAmenities.filter(item => item.amenities.includes('microwave'));
+      }
+    }
+    
       
     return (
       <div>
@@ -73,7 +94,7 @@ class SearchPage extends React.Component {
           <div className="col-12 float-left searchList">
             <h3 className="capitalize">{this.state.city}</h3>
             <div className="view-apartment-list">
-              {apartmentsPrice.map((item, index) => (
+              {apartmentsAmenities.map((item, index) => (
                   <ApartmentTileView key={index} apartment={item} />
               ))}
             </div>
@@ -88,7 +109,8 @@ const mapStateToProps = state => ({
   apartmentsList: state.apartmentsList.apartments,
   size: state.sizeReducer.size,
   price: state.priceReducer.price,
-  amenities: state.apartmentAmenitiesReducer
+  amenities: state.apartmentAmenitiesReducer,
+  details: state.apartmentDetailsReducer
 });
 
 export default connect(mapStateToProps, {fetchApartmentsList})(SearchPage)
